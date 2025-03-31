@@ -9,6 +9,8 @@ TagManager:
   - balle
   - Audio
   - LevelButton
+  - Ground
+  - Background
   layers:
   - Default
   - TransparentFX
@@ -16,8 +18,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Ground
+  - Background
   - 
   - 
   - 

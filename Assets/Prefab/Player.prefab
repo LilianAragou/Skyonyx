@@ -244,6 +244,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   jump: 13
+  wallJumpForce: 6
+  shadowPrefab: {fileID: 5735103552016662742, guid: 5ae459e2288f94941b9a727ae4f83da0, type: 3}
 --- !u!70 &7229475403163618278
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
