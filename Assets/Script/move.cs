@@ -10,17 +10,17 @@ public class Move : MonoBehaviour
     private bool grounded;
     private float rayonDetection;
     private bool wallSliding;
+    private float wallSlideSpeed;
+    private float wallSlideTimer;
     private bool touchingWallLeft, touchingWallRight;
+    private bool touchingWallLeftFeet, touchingWallRightFeet;
+    private bool touchingWallLeftMid, touchingWallRightMid;
     private SpriteRenderer skin;
     private Animator anim;
     private Transform shadow;
     private float lastWallJumpTime;
     public Transform groundChecker;
     public LayerMask wallLayer;
-    bool touchingWallLeftFeet;
-    bool touchingWallRightFeet;
-    bool touchingWallLeftMid;
-    bool touchingWallRightMid;
 
     void Start()
     {
@@ -36,14 +36,14 @@ public class Move : MonoBehaviour
     void Update()
     {
         groundCheck();
+        checkWall();
         moveCheck();
+
         if (grounded)
-        {
             flipCheck();
-        }
+
         animCheck();
         shadowUpdate();
-        checkWall();
 
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -57,25 +57,18 @@ public class Move : MonoBehaviour
         Vector2 position = transform.position;
         float colliderHeight = monColl.size.y * 0.5f;
 
-        // Position des pieds du joueur (on part du centre et on descend)
         Vector2 feetPosition = position + Vector2.down * (colliderHeight - 0.05f);
-
-        // Position intermédiaire entre le corps et les pieds
         Vector2 midPosition = position + Vector2.down * (colliderHeight * 0.5f);
 
-        // Raycasts principaux (hauteur du corps)
         RaycastHit2D hitLeft = Physics2D.Raycast(position, Vector2.left, checkDistance, wallLayer);
         RaycastHit2D hitRight = Physics2D.Raycast(position, Vector2.right, checkDistance, wallLayer);
 
-        // Raycasts au niveau des pieds
         RaycastHit2D hitLeftFeet = Physics2D.Raycast(feetPosition, Vector2.left, checkDistance, wallLayer);
         RaycastHit2D hitRightFeet = Physics2D.Raycast(feetPosition, Vector2.right, checkDistance, wallLayer);
 
-        // Raycasts entre le corps et les pieds
         RaycastHit2D hitLeftMid = Physics2D.Raycast(midPosition, Vector2.left, checkDistance, wallLayer);
         RaycastHit2D hitRightMid = Physics2D.Raycast(midPosition, Vector2.right, checkDistance, wallLayer);
 
-        // Booleens de contact
         touchingWallLeft = hitLeft.collider != null;
         touchingWallRight = hitRight.collider != null;
         touchingWallLeftFeet = hitLeftFeet.collider != null;
@@ -83,7 +76,20 @@ public class Move : MonoBehaviour
         touchingWallLeftMid = hitLeftMid.collider != null;
         touchingWallRightMid = hitRightMid.collider != null;
 
-        wallSliding = !grounded && (touchingWallLeft || touchingWallRight);
+        // Wall sliding avec temporisation après wall jump
+        bool nearWall = touchingWallLeft || touchingWallRight || touchingWallLeftFeet || touchingWallRightFeet || touchingWallLeftMid || touchingWallRightMid;
+        wallSliding = !grounded && nearWall && Time.time > lastWallJumpTime + 0.1f;
+
+        if (wallSliding)
+        {
+            wallSlideTimer += Time.deltaTime;
+            float slideFactor = Mathf.Clamp01(wallSlideTimer / 1.5f);
+            wallSlideSpeed = Mathf.Lerp(0.5f, stats.maxFallSpeed, slideFactor);
+        }
+        else
+        {
+            wallSlideTimer = 0f;
+        }
     }
 
     void groundCheck()
@@ -93,7 +99,7 @@ public class Move : MonoBehaviour
         Collider2D[] colls = Physics2D.OverlapCircleAll((Vector2)transform.position + Vector2.up * (monColl.offset.y + rayonDetection * 0.8f - (monColl.size.y / 2)), rayonDetection);
         foreach (Collider2D coll in colls)
         {
-            if (coll != monColl && !coll.isTrigger)
+            if (coll != monColl && !coll.isTrigger && coll.gameObject.layer == LayerMask.NameToLayer("Ground"))
             {
                 grounded = true;
                 break;
@@ -103,13 +109,13 @@ public class Move : MonoBehaviour
 
     void moveCheck()
     {
-        Debug.Log("grounded : " + grounded);
-        Debug.Log("wall_slide : " + wallSliding);
         Vector2 velocity = rb.linearVelocity;
+
         if (grounded)
         {
             velocity.x = Input.GetAxis("Horizontal") * stats.speed;
         }
+
         if (Input.GetButtonDown("Jump"))
         {
             if (grounded)
@@ -120,8 +126,16 @@ public class Move : MonoBehaviour
             {
                 lastWallJumpTime = Time.time;
                 velocity.y = stats.jumpForce;
-                velocity.x = touchingWallLeft ? stats.wallJumpForce : -stats.wallJumpForce;
+                velocity.x = (touchingWallLeft || touchingWallLeftFeet || touchingWallLeftMid) ? stats.wallJumpForce : -stats.wallJumpForce;
+
+                wallSliding = false; // empêche le wall slide juste après le jump
             }
+        }
+
+        // Appliquer wall sliding si actif
+        if (wallSliding && velocity.y < 0)
+        {
+            velocity.y = -wallSlideSpeed;
         }
 
         rb.linearVelocity = velocity;
@@ -158,26 +172,20 @@ public class Move : MonoBehaviour
         Vector3 originalPosition = transform.position;
         Vector3 shadowPosition = shadow.position;
 
-        // Vérifier les collisions avec la shadow en utilisant son BoxCollider2D
         Collider2D[] results = new Collider2D[10];
         int count = shadow.GetComponent<Collider2D>().Overlap(new ContactFilter2D().NoFilter(), results);
 
         foreach (var coll in results)
         {
-            // Vérifie les collisions avec d'autres objets, sauf le joueur lui-même
             if (coll != null && coll.gameObject != gameObject && !coll.isTrigger)
             {
-                // Si une collision indésirable est détectée, annule le swap et renvoie le joueur à sa position originale
                 transform.position = originalPosition;
                 GetComponent<playerLife>()?.SendMessage("jeSuisMouru");
                 return;
             }
         }
 
-        // Si aucune collision indésirable n'est détectée, effectuer le swap
         transform.position = shadowPosition;
-
-        // Réinitialise la position de la shadow à l'ancienne position du joueur
         shadow.position = originalPosition;
     }
 }

@@ -102,7 +102,6 @@ GameObject:
   - component: {fileID: 6819864102088109515}
   - component: {fileID: 7229475403163618278}
   - component: {fileID: 1413134379485649334}
-  - component: {fileID: 7150832582766463266}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -242,10 +241,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 795615814881fa0409dc3c7797b58f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  jump: 13
-  wallJumpForce: 6
+  stats: {fileID: 0}
   shadowPrefab: {fileID: 5735103552016662742, guid: 5ae459e2288f94941b9a727ae4f83da0, type: 3}
+  groundChecker: {fileID: 0}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!70 &7229475403163618278
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -295,23 +299,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a96e89ba1e3209e47afc97aa5c7bcd92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vie: 3
-  barreDeVie: {fileID: 0}
---- !u!114 &7150832582766463266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8158684093841130901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d962ba5a32965943ada28ebf5e809a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  degats: 1
-  weapon: {fileID: 3083792932773500343}
-  projectil: {fileID: 693801124468544985, guid: 433f89d3760db73498cdfee1527b294c, type: 3}
-  speedProjectil: 6
-  projectilLifeTime: 3
-  reloadTime: 1

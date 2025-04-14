@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: PlayerStats
   m_EditorClassIdentifier: 
   speed: 5
-  jumpForce: 12
+  jumpForce: 14
   wallJumpForce: 6
+  maxFallSpeed: 20
