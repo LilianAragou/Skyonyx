@@ -69,16 +69,9 @@
     <Compile Include="Assets\Script\move.cs" />
     <Compile Include="Assets\Script\piege.cs" />
     <Compile Include="Assets\Script\SceneController.cs" />
-    <Compile Include="Assets\Script\reset.cs" />
-    <Compile Include="Assets\Script\attackDistEnemy.cs" />
-    <Compile Include="Assets\Script\start_lvl.cs" />
-    <Compile Include="Assets\Script\attackDist.cs" />
-    <Compile Include="Assets\Script\ennemiLife.cs" />
-    <Compile Include="Assets\Script\projectileEnemy.cs" />
-    <Compile Include="Assets\Script\victory.cs" />
     <Compile Include="Assets\Script\ennemiPatrol.cs" />
     <Compile Include="Assets\Script\playerLife.cs" />
-    <Compile Include="Assets\Script\projectile.cs" />
+    <Compile Include="Assets\Script\playerStats.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -98,9 +98,7 @@ GameObject:
   - component: {fileID: 239653328594462565}
   - component: {fileID: 1105015608856627398}
   - component: {fileID: 7870415378029588507}
-  - component: {fileID: 7720286857953799460}
   - component: {fileID: 8306207100170361922}
-  - component: {fileID: 41598050162056911}
   - component: {fileID: 1459873977042555939}
   m_Layer: 0
   m_Name: German soldier F1_0
@@ -226,22 +224,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.12, y: 2.9599998}
   m_EdgeRadius: 0
---- !u!114 &7720286857953799460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6909116137780370153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a68259a51154c684fa2966db471a16bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vie: 1
-  bloodEffect: {fileID: 0}
-  gun: {fileID: 2608129752457684511}
-  me: {fileID: 6909116137780370153}
 --- !u!50 &8306207100170361922
 Rigidbody2D:
   serializedVersion: 5
@@ -269,24 +251,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &41598050162056911
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6909116137780370153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e56e6723bc2fc8e47a281458b95f0dd6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  degats: 1
-  weapon: {fileID: 9151822395441760885}
-  projectil: {fileID: 4270132927984539890, guid: 620c103a34a2d5d42a340eccd947cd5b, type: 3}
-  speedProjectil: 4
-  projectilLifeTime: 1
-  reloadTime: 0.7
 --- !u!95 &1459873977042555939
 Animator:
   serializedVersion: 7

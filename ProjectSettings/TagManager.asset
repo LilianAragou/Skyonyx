@@ -10,12 +10,12 @@ TagManager:
   - Audio
   - LevelButton
   - Ground
-  - Background
+  - Kill
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Ground
