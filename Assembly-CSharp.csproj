@@ -67,8 +67,10 @@
   <ItemGroup>
     <Compile Include="Assets\Script\audioManager.cs" />
     <Compile Include="Assets\Script\move.cs" />
+    <Compile Include="Assets\Script\EnemyData.cs" />
     <Compile Include="Assets\Script\piege.cs" />
     <Compile Include="Assets\Script\SceneController.cs" />
+    <Compile Include="Assets\Script\cameraManager.cs" />
     <Compile Include="Assets\Script\ennemiPatrol.cs" />
     <Compile Include="Assets\Script\playerLife.cs" />
     <Compile Include="Assets\Script\playerStats.cs" />

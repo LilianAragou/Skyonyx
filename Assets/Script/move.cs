@@ -39,6 +39,9 @@ public class Move : MonoBehaviour
         checkWall();
         moveCheck();
 
+        Debug.Log("grounded : " + grounded);
+        Debug.Log("wall : " + wallSliding);
+
         if (grounded)
             flipCheck();
 
@@ -53,19 +56,17 @@ public class Move : MonoBehaviour
 
     void checkWall()
     {
-        float checkDistance = 0.75f;
+        float checkDistance = 0.55f;
         Vector2 position = transform.position;
         float colliderHeight = monColl.size.y * 0.5f;
 
-        Vector2 feetPosition = position + Vector2.down * (colliderHeight - 0.05f);
-        Vector2 midPosition = position + Vector2.down * (colliderHeight * 0.5f);
+        Vector2 feetPosition = position + Vector2.down * (colliderHeight - 0.5f);
+        Vector2 midPosition = position + Vector2.down * ((colliderHeight * 0.5f) - 0.25f);
 
         RaycastHit2D hitLeft = Physics2D.Raycast(position, Vector2.left, checkDistance, wallLayer);
         RaycastHit2D hitRight = Physics2D.Raycast(position, Vector2.right, checkDistance, wallLayer);
-
         RaycastHit2D hitLeftFeet = Physics2D.Raycast(feetPosition, Vector2.left, checkDistance, wallLayer);
         RaycastHit2D hitRightFeet = Physics2D.Raycast(feetPosition, Vector2.right, checkDistance, wallLayer);
-
         RaycastHit2D hitLeftMid = Physics2D.Raycast(midPosition, Vector2.left, checkDistance, wallLayer);
         RaycastHit2D hitRightMid = Physics2D.Raycast(midPosition, Vector2.right, checkDistance, wallLayer);
 
@@ -76,7 +77,6 @@ public class Move : MonoBehaviour
         touchingWallLeftMid = hitLeftMid.collider != null;
         touchingWallRightMid = hitRightMid.collider != null;
 
-        // Wall sliding avec temporisation après wall jump
         bool nearWall = touchingWallLeft || touchingWallRight || touchingWallLeftFeet || touchingWallRightFeet || touchingWallLeftMid || touchingWallRightMid;
         wallSliding = !grounded && nearWall && Time.time > lastWallJumpTime + 0.1f;
 
@@ -95,8 +95,10 @@ public class Move : MonoBehaviour
     void groundCheck()
     {
         grounded = false;
-        rayonDetection = monColl.size.x * 0.45f;
+        rayonDetection = monColl.size.x * 0.20f;
+
         Collider2D[] colls = Physics2D.OverlapCircleAll((Vector2)transform.position + Vector2.up * (monColl.offset.y + rayonDetection * 0.8f - (monColl.size.y / 2)), rayonDetection);
+
         foreach (Collider2D coll in colls)
         {
             if (coll != monColl && !coll.isTrigger && coll.gameObject.layer == LayerMask.NameToLayer("Ground"))
@@ -127,12 +129,10 @@ public class Move : MonoBehaviour
                 lastWallJumpTime = Time.time;
                 velocity.y = stats.jumpForce;
                 velocity.x = (touchingWallLeft || touchingWallLeftFeet || touchingWallLeftMid) ? stats.wallJumpForce : -stats.wallJumpForce;
-
-                wallSliding = false; // empêche le wall slide juste après le jump
+                wallSliding = false;
             }
         }
 
-        // Appliquer wall sliding si actif
         if (wallSliding && velocity.y < 0)
         {
             velocity.y = -wallSlideSpeed;
@@ -187,5 +187,31 @@ public class Move : MonoBehaviour
 
         transform.position = shadowPosition;
         shadow.position = originalPosition;
+    }
+
+    void OnDrawGizmos()
+    {
+        if (monColl == null) return;
+
+        float checkDistance = 0.55f;
+        Vector2 position = transform.position;
+        float colliderHeight = monColl.size.y * 0.5f;
+
+        Vector2 feetPosition = position + Vector2.down * (colliderHeight - 0.5f);
+        Vector2 midPosition = position + Vector2.down * ((colliderHeight * 0.5f) - 0.25f);
+
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawLine(position, position + Vector2.left * checkDistance);
+        Gizmos.DrawLine(position, position + Vector2.right * checkDistance);
+        Gizmos.DrawLine(feetPosition, feetPosition + Vector2.left * checkDistance);
+        Gizmos.DrawLine(feetPosition, feetPosition + Vector2.right * checkDistance);
+        Gizmos.DrawLine(midPosition, midPosition + Vector2.left * checkDistance);
+        Gizmos.DrawLine(midPosition, midPosition + Vector2.right * checkDistance);
+
+        Gizmos.color = Color.green;
+
+        Vector2 circleCenter = (Vector2)transform.position + Vector2.up * (monColl.offset.y + rayonDetection * 0.8f - (monColl.size.y / 2));
+        Gizmos.DrawWireSphere(circleCenter, monColl.size.x * 0.20f);
     }
 }
