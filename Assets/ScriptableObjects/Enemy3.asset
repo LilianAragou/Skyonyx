@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0867973ef3d24bc47a1b401dd5fe5513, type: 3}
-  m_Name: NewEnemyData
+  m_Name: Enemy3
   m_EditorClassIdentifier: 
-  speed: 1
-  leftLimit: 3.8
-  rightLimit: 4.2
+  speed: 0.5
+  leftLimit: -5
+  rightLimit: -2

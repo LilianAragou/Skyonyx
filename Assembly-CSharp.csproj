@@ -70,10 +70,13 @@
     <Compile Include="Assets\Script\EnemyData.cs" />
     <Compile Include="Assets\Script\piege.cs" />
     <Compile Include="Assets\Script\SceneController.cs" />
+    <Compile Include="Assets\Script\ButtonTrigger.cs" />
+    <Compile Include="Assets\Script\Door.cs" />
     <Compile Include="Assets\Script\cameraManager.cs" />
     <Compile Include="Assets\Script\ennemiPatrol.cs" />
     <Compile Include="Assets\Script\playerLife.cs" />
     <Compile Include="Assets\Script\playerStats.cs" />
+    <Compile Include="Assets\Script\DoorTrigger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -5,6 +5,7 @@ public class CameraController : MonoBehaviour
 {
     public float slideDuration = 1f; // temps pour glisser
     private bool sliding = false;
+    public float PixelsPerUnit = 100f; // ou la valeur que tu utilises dans ton projet
 
     public void SlideRight(float distance)
     {

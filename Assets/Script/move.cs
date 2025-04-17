@@ -39,9 +39,6 @@ public class Move : MonoBehaviour
         checkWall();
         moveCheck();
 
-        Debug.Log("grounded : " + grounded);
-        Debug.Log("wall : " + wallSliding);
-
         if (grounded)
             flipCheck();
 
@@ -160,7 +157,9 @@ public class Move : MonoBehaviour
     {
         if (shadow != null)
         {
-            Vector3 mirroredPosition = new Vector3(-transform.position.x, transform.position.y, transform.position.z);
+            Vector3 cameraCenter = Camera.main.transform.position;
+            float distanceToCameraX = transform.position.x - cameraCenter.x;
+            Vector3 mirroredPosition = new Vector3(cameraCenter.x - distanceToCameraX, transform.position.y, transform.position.z);
             shadow.position = mirroredPosition;
         }
     }
@@ -186,6 +185,11 @@ public class Move : MonoBehaviour
         }
 
         transform.position = shadowPosition;
+
+        // Corriger direction de déplacement après swap
+        Vector2 velocity = rb.linearVelocity;
+        rb.linearVelocity = new Vector2(-velocity.x, velocity.y);
+
         shadow.position = originalPosition;
     }
 
