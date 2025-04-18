@@ -57,8 +57,8 @@ public class Move : MonoBehaviour
         Vector2 position = transform.position;
         float colliderHeight = monColl.size.y * 0.5f;
 
-        Vector2 feetPosition = position + Vector2.down * (colliderHeight - 0.5f);
-        Vector2 midPosition = position + Vector2.down * ((colliderHeight * 0.5f) - 0.25f);
+        Vector2 feetPosition = position + Vector2.down * (colliderHeight - 0.6f);
+        Vector2 midPosition = position + Vector2.down * ((colliderHeight * 0.5f) - 0.3f);
 
         RaycastHit2D hitLeft = Physics2D.Raycast(position, Vector2.left, checkDistance, wallLayer);
         RaycastHit2D hitRight = Physics2D.Raycast(position, Vector2.right, checkDistance, wallLayer);
@@ -92,9 +92,9 @@ public class Move : MonoBehaviour
     void groundCheck()
     {
         grounded = false;
-        rayonDetection = monColl.size.x * 0.20f;
+        rayonDetection = monColl.size.x * 0.15f;
 
-        Collider2D[] colls = Physics2D.OverlapCircleAll((Vector2)transform.position + Vector2.up * (monColl.offset.y + rayonDetection * 0.8f - (monColl.size.y / 2)), rayonDetection);
+        Collider2D[] colls = Physics2D.OverlapCircleAll((Vector2)transform.position + Vector2.up * (monColl.offset.y + rayonDetection * 0.8f - (monColl.size.y / 3)), rayonDetection);
 
         foreach (Collider2D coll in colls)
         {
@@ -201,8 +201,8 @@ public class Move : MonoBehaviour
         Vector2 position = transform.position;
         float colliderHeight = monColl.size.y * 0.5f;
 
-        Vector2 feetPosition = position + Vector2.down * (colliderHeight - 0.5f);
-        Vector2 midPosition = position + Vector2.down * ((colliderHeight * 0.5f) - 0.25f);
+        Vector2 feetPosition = position + Vector2.down * (colliderHeight - 0.6f);
+        Vector2 midPosition = position + Vector2.down * ((colliderHeight * 0.5f) - 0.3f);
 
         Gizmos.color = Color.red;
 
@@ -215,7 +215,7 @@ public class Move : MonoBehaviour
 
         Gizmos.color = Color.green;
 
-        Vector2 circleCenter = (Vector2)transform.position + Vector2.up * (monColl.offset.y + rayonDetection * 0.8f - (monColl.size.y / 2));
-        Gizmos.DrawWireSphere(circleCenter, monColl.size.x * 0.20f);
+        Vector2 circleCenter = (Vector2)transform.position + Vector2.up * (monColl.offset.y + rayonDetection * 0.8f - (monColl.size.y / 3));
+        Gizmos.DrawWireSphere(circleCenter, monColl.size.x * 0.15f);
     }
 }

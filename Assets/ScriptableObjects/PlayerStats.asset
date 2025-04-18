@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15ca6060fbc675141bd35b2e7d04842c, type: 3}
   m_Name: PlayerStats
   m_EditorClassIdentifier: 
-  speed: 5
-  jumpForce: 14
-  wallJumpForce: 6
-  maxFallSpeed: 20
+  speed: 6
+  jumpForce: 9
+  wallJumpForce: 3
+  maxFallSpeed: 9
